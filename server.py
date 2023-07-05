@@ -14,6 +14,13 @@ class BeachData(db.Model):
     beach_name = db.Column(db.String(100))
     data = db.Column(db.JSON)  # Here we'll store our record data for each beach
 
+    def set_data(self, data):
+        self.data = json.dumps(data)  # Convert data to JSON string
+
+    def get_data(self):
+        return json.loads(self.data)  # Convert JSON string to Python object
+
+
 
 
 def scrape_beach_data(url):
@@ -54,14 +61,15 @@ def get_data():
             # Check if a record for this beach already exists
             beach_record = BeachData.query.filter_by(beach_name=beach_name).first()
 
-            if beach_record:
-                # Update existing record
-                beach_record.data = record
-            else:
-                # Create new record
-                beach_record = BeachData(beach_name=beach_name, data=record)
-                db.session.add(beach_record)
-    
+        if beach_record:
+            # Update existing record
+            beach_record.set_data(record)
+        else:
+            # Create new record
+            beach_record = BeachData(beach_name=beach_name)
+            beach_record.set_data(record)
+            db.session.add(beach_record)
+        
     db.session.commit()  # Commit the changes to the database
 
     return {record.get('beach_name', ''): record for record in data}
