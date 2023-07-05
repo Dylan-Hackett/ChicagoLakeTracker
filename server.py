@@ -42,7 +42,9 @@ def get_data():
 
     beach_urls =  { '57th Street':"https://www.chicagoparkdistrict.com/parks-facilities/57th-street-beach", 
                     'Oakwood':"https://www.chicagoparkdistrict.com/parks-facilities/oakwood-beach", 
-                    'Margaret T Burroughs (31st)':"https://www.chicagoparkdistrict.com/parks-facilities/margaret-t-burroughs-beach"}
+                    'Margaret T Burroughs (31st)':"https://www.chicagoparkdistrict.com/parks-facilities/margaret-t-burroughs-beach", '12th Street':"https://www.chicagoparkdistrict.com/parks-facilities/12th-street-beach", 
+                    'Ohio Street':"https://www.chicagoparkdistrict.com/parks-facilities/ohio-street-beach", 'Oak Street':"https://www.chicagoparkdistrict.com/parks-facilities/oak-street-beach", 'North Avenue':"https://www.chicagoparkdistrict.com/parks-facilities/north-avenue-beach", 'Foster':"https://www.chicagoparkdistrict.com/parks-facilities/foster-beach", 'Osterman':"https://www.chicagoparkdistrict.com/parks-facilities/osterman-beach", 
+                    'Hartigan (Albion)':"https://www.chicagoparkdistrict.com/parks-facilities/hartigan-beach", 'Leone':"https://www.chicagoparkdistrict.com/parks-facilities/leone-beach", 'Marion Mahony Griffin (Jarvis)':"https://www.chicagoparkdistrict.com/parks-facilities/marion-mahony-griffin-beach"}
 
     for record in data:
         beach_name = record.get('beach_name', '')
