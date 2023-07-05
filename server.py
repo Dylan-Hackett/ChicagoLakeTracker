@@ -80,7 +80,8 @@ def order_data(data):
 
 with app.app_context():
     db.create_all()
-    
+    get_data()
+
 
 @app.route('/')
 def index():
