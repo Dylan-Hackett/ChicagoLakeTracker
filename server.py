@@ -7,7 +7,7 @@ import os
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///db.sqlite') # Will use DATABASE_URL if it exists, otherwise use sqlite for local development.
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app, "sqlite:///data.db")
+db = SQLAlchemy(app)
 
 class BeachData(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -87,8 +87,7 @@ def order_data(data):
     return sorted(data.values(), key=lambda record: beach_positions.get(record['beach_name'], float('inf')))
 
 with app.app_context():
-    db.create_all(bind=None)
-    get_data()
+    db.create_all()
 
 
 @app.route('/')
