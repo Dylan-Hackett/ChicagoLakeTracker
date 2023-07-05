@@ -8,8 +8,10 @@ flask = "*"
 beautifulsoup4 = "*"
 flask-sqlalchemy = "*"
 requests = "*"
+gunicorn
 
 [dev-packages]
 
 [requires]
 python_version = "3.9"
+gunicorn = "*"
