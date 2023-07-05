@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Form</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding: 10px;
+            background-color:#535456;;
+            font-family: 'ui-monospace';
+        }
+        
+/* font-family: ui-monospace;
+
+
+
+ */
+        h1 {
+            left: 30%;
+            position: absolute;
+            white-space: nowrap;
+            color: rgb(255, 241, 240);
+            background-color: rgba(75, 192, 192, 1);
+            box-shadow: 5px 5px black, -5px 5px black;
+            
+
+        }
+        .wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            background-color: #535456;
+            
+            
+        }
+
+        .form-container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #464d55;
+            color: white;
+            border-radius: 10px;
+        }
+        .form-control {
+            background-color: #495057;
+            border-color: #495057;
+            color: white;
+        }
+        .form-control:focus {
+            background-color: #495057;
+            border-color: #495057;
+            color: white;
+        }
+
+        #chart-container {
+
+            top: 22%;
+            left: 10%;
+            position: absolute;
+            width: 700px;
+            height: 400px;}
+        .inner-wrap{
+            display: inline-flex;
+            border: 2pt solid white;
+            padding-left: 200px;
+        }
+
+        #data-container {
+            width: 1400px;
+            min-width: 1400px;
+            height: 150px;
+            padding: 10px;
+            color: black;
+            margin-top: 600px;
+            margin-bottom: 300px;
+            border-radius: 10px;
+            border: 3pt solid black;
+            border-top: 5pt solid black;
+            box-shadow: 5px 5px black, -5px 5px black;
+        }
+        #data-container div {
+            display: inline-block;
+            white-space: nowrap;
+            width: 30%;
+            margin-right: 1%;
+            font-weight: bold;
+            font-size: 11pt;
+        }
+        .green {
+            color: rgb(98, 189, 98);
+        }
+        .yellow {
+            color: rgb(193, 193, 108);
+        }
+        .red {
+            color: rgb(210, 98, 98);
+        }
+        #map{
+            top: 15%;
+            left: 900px;
+            width: 270px;
+            position: absolute;
+            height: 450px;
+            border: 3pt solid rgba(75, 192, 192, 1);
+        }
+    </style>
+</head>
+<body>
+    <h1>~Chicago Beach E Coli Predictions~</h1>
+    <div class="wrapper">
+        <div class="inner-wrap">
+            <div id="map"></div>
+            <div id="chart-container">
+                <canvas id="myChart"></canvas>   
+            </div>
+        </div>
+    </div>
+        {% if data %}
+            <div id="data-container">
+                {% for record in data %}
+                    <div class="beach-data">
+                        Beach: {{ record.beach_name }} |
+                        Predicted e.coli level: <span class="prediction-level">{{ record.predicted_level }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No data found.</p>
+        {% endif %}
+    </div>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var dataFromFlask = JSON.parse('{{ data | tojson | safe }}');
+        var labels = dataFromFlask.map(function(record) { return record['beach_name']; });
+        var predictedLevels = dataFromFlask.map(function(record) { return record['predicted_level']; });
+        var scrapedNumbers = dataFromFlask.map(function(record) { return record['scraped_number']; });  // The new data
+
+        var ctx = document.getElementById('myChart');
+
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Predicted E. coli Level',
+                    data: predictedLevels,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Scraped Number',
+                    data: scrapedNumbers,
+                    // Customize the appearance as needed
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                scales: {
+                    x: {
+                        beginAtZero: true
+                    },
+                    y: {
+                        ticks: {
+                            color: 'white',
+                            font: {
+                                    family: 'ui-monospace'
+                                }
+                            
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'white',
+                            font: {
+                                    family: 'ui-monospace'
+                                }
+                        }
+                        
+                    }
+                    
+                }
+            }
+        });
+
+        var beachDataElements = document.querySelectorAll('.beach-data');
+        beachDataElements.forEach(function(element) {
+            var predictionLevelElement = element.querySelector('.prediction-level');
+            var predictionLevel = parseFloat(predictionLevelElement.innerText);
+
+            if (predictionLevel < 50) {
+                element.classList.add('green');
+            } else if (predictionLevel >= 50 && predictionLevel < 100) {
+                element.classList.add('yellow');
+            } else {
+                element.classList.add('red');
+            }
+        });
+        var mymap = L.map('map').setView([41.8781, -87.6298], 11);  // Coordinates for Chicago
+
+        // Add tile layer (base map visuals) to the map
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+        }).addTo(mymap);
+
+        // Assuming 'dataFromFlask' has lat and lon properties for each record
+        dataFromFlask.forEach(function(record) {
+            if (record.latitude && record.longitude) {
+                var marker = L.marker([record.latitude, record.longitude]).addTo(mymap);
+                marker.bindPopup("<b>" + record.beach_name + "</b><br>Predicted Level: " + record.predicted_level).openPopup();
+            }
+        });
+    </script>
+</body>
+</html>
