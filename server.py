@@ -103,5 +103,8 @@ def index():
     ordered_data = order_data(data)
     return render_template('index.html', data=ordered_data)
 
-if __name__=="__main__":
-    app.run(debug=True, host="localhost", port=8009)
+if __name__ == "__main__":
+    with app.app_context():
+        db.create_all()
+        get_data()
+    app.run(debug=True, host="localhost", port=8009) 
