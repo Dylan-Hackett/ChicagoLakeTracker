@@ -3,7 +3,6 @@ from flask_sqlalchemy import SQLAlchemy
 import requests
 import json
 from bs4 import BeautifulSoup
-import os
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://xjqwxqivxhtrde:016c28bf31785c503e6e217bcf16f399cf7290128db7950ce366574462ddda26@ec2-3-232-218-211.compute-1.amazonaws.com:5432/dcfbgfq1ac0qdm'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False

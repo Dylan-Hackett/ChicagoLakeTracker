@@ -122,8 +122,7 @@
                 {% for record in data %}
                     <div class="beach-data">
                         Beach: {{ record.beach_name }} |
-                        Predicted e.coli level: <span class="prediction-level">{{ record.predicted_level }}</span>
-                    </div>
+                        Actual e.coli level: <span class="scraped-level">{{ record.scraped_number }}</span>                    </div>
                 {% endfor %}
             </div>
         {% else %}
@@ -156,7 +155,7 @@
                     borderWidth: 1
                 },
                 {
-                    label: 'Scraped Number',
+                    label: 'Actual reading',
                     data: scrapedNumbers,
                     // Customize the appearance as needed
                     backgroundColor: 'rgba(255, 99, 132, 0.2)',
@@ -197,7 +196,7 @@
 
         var beachDataElements = document.querySelectorAll('.beach-data');
         beachDataElements.forEach(function(element) {
-            var predictionLevelElement = element.querySelector('.prediction-level');
+            var predictionLevelElement = element.querySelector('.scraped-level');
             var predictionLevel = parseFloat(predictionLevelElement.innerText);
 
             if (predictionLevel < 50) {
