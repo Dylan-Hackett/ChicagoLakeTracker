@@ -70,6 +70,7 @@ def get_data():
             beach_record.set_data(record)
             db.session.add(beach_record)
         
+    db.session.commit()
 
 
     return {record.get('beach_name', ''): record for record in data}
