@@ -54,22 +54,30 @@ def get_data():
                     'Ohio Street':"https://www.chicagoparkdistrict.com/parks-facilities/ohio-street-beach", 'Oak Street':"https://www.chicagoparkdistrict.com/parks-facilities/oak-street-beach", 'North Avenue':"https://www.chicagoparkdistrict.com/parks-facilities/north-avenue-beach", 'Foster':"https://www.chicagoparkdistrict.com/parks-facilities/foster-beach", 'Osterman':"https://www.chicagoparkdistrict.com/parks-facilities/osterman-beach", 
                     'Hartigan (Albion)':"https://www.chicagoparkdistrict.com/parks-facilities/hartigan-beach", 'Leone':"https://www.chicagoparkdistrict.com/parks-facilities/leone-beach", 'Marion Mahony Griffin (Jarvis)':"https://www.chicagoparkdistrict.com/parks-facilities/marion-mahony-griffin-beach"}
 
+    processed_beaches = {}  # dictionary to keep track of processed beaches
+
     for record in data:
+        if not isinstance(record, dict) or 'beach_name' not in record:
+            continue
         beach_name = record.get('beach_name', '')
+
+        if beach_name in processed_beaches:  # if beach has already been processed, skip
+            continue
         if beach_name in beach_urls:
             record['scraped_number'] = scrape_beach_data(beach_urls[beach_name])
-            
             beach_record = BeachData.query.filter_by(beach_name=beach_name).first()
             print(f"Existing record for {beach_name}: {beach_record}")
 
-        if beach_record:
-            beach_record.set_data(record)
-            print(f"Updated record: {beach_record.get_data()}")
-        else:
-            beach_record = BeachData(beach_name=beach_name)
-            beach_record.set_data(record)
-            db.session.add(beach_record)
-            print(f"New record: {beach_record.get_data()}")
+            if beach_record:
+                beach_record.set_data(record)
+                print(f"Updated record: {beach_record.get_data()}")
+            else:
+                beach_record = BeachData(beach_name=beach_name)
+                beach_record.set_data(record)
+                db.session.add(beach_record)
+                print(f"New record: {beach_record.get_data()}")
+
+            processed_beaches[beach_name] = True  # mark the beach as processed
 
     db.session.commit()
 
