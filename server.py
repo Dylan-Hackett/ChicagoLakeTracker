@@ -86,10 +86,6 @@ def order_data(data):
     # Convert the dictionary values to a list and sort
     return sorted(data.values(), key=lambda record: beach_positions.get(record['beach_name'], float('inf')))
 
-with app.app_context():
-    db.create_all()
-    get_data()
-
 
 @app.route('/')
 def index():
