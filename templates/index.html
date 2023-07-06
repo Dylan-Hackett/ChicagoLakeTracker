@@ -2,138 +2,134 @@
 <html>
 <head>
     <title>Form</title>
-    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" rel="stylesheet">
+    
     <style>
         body {
-            padding: 10px;
-            background-color:#535456;;
-            font-family: 'ui-monospace';
+            padding: 20px;
+            background-color: #202125;
+            font-family: 'Poppins', sans-serif;
+            color: #E8E6E3;
         }
-        
-/* font-family: ui-monospace;
 
-
-
- */
         h1 {
-            left: 30%;
-            position: absolute;
-            white-space: nowrap;
-            color: rgb(255, 241, 240);
-            background-color: rgba(75, 192, 192, 1);
-            box-shadow: 5px 5px black, -5px 5px black;
-            
+            text-align: center;
+            color: #E8E6E3;
+            background-color: #50aec8;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0px 0px 15px #202125;
+            width: 50%;
+            margin: 20px auto;
+            border: 2px solid #E8E6E3; /* border */
+        }
+        h3{
+            text-align: center;
 
         }
+
         .wrapper {
             display: flex;
             flex-wrap: wrap;
-            justify-content: center;
-            background-color: #535456;
-            
-            
+            min-width: 1400px;
+            justify-content: space-around;
+            margin-top: 50px;
         }
 
-        .form-container {
-            max-width: 500px;
-            margin: 50px auto;
+        .inner-wrap {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px;
             padding: 20px;
-            background-color: #464d55;
-            color: white;
-            border-radius: 10px;
-        }
-        .form-control {
-            background-color: #495057;
-            border-color: #495057;
-            color: white;
-        }
-        .form-control:focus {
-            background-color: #495057;
-            border-color: #495057;
-            color: white;
+            background-color: #303030;
+            border-radius: 15px;
+            box-shadow: 0px 0px 15px #202125;
         }
 
-        #chart-container {
-
-            top: 22%;
-            left: 10%;
-            position: absolute;
-            width: 700px;
-            height: 400px;}
-        .inner-wrap{
-            display: inline-flex;
-            border: 2pt solid white;
-            padding-left: 200px;
+        #map {
+            height: 400px; 
+            width: 45%;
+            border-radius: 15px;
+            background-color: #303030;
+            box-shadow: 0px 0px 15px #202125;
+        }
+        #chart-container, #map {
+            height: 400px; 
+            width: 650px;
+            border-radius: 15px;
+            background-color: #303030;
+            box-shadow: 0px 0px 15px #202125;
         }
 
         #data-container {
-            width: 1400px;
+            width: 100%;
+            padding: 20px;
+            color: #E8E6E3;
+            margin-top: 20px;
             min-width: 1400px;
-            height: 150px;
-            padding: 10px;
-            color: black;
-            margin-top: 600px;
-            margin-bottom: 300px;
+            margin-bottom: 20px;
             border-radius: 10px;
-            border: 3pt solid black;
-            border-top: 5pt solid black;
-            box-shadow: 5px 5px black, -5px 5px black;
+            border: 1px solid #555;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
         }
-        #data-container div {
-            display: inline-block;
-            white-space: nowrap;
-            width: 30%;
-            margin-right: 1%;
-            font-weight: bold;
-            font-size: 11pt;
+
+        .beach-data {
+            flex-basis: calc(33% - 20px);  
+            border: 1px solid #555;
+            margin: 10px;
+            padding: 10px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            background-color: #000000;
+            color: #E8E6E3;
         }
+
         .green {
-            color: rgb(98, 189, 98);
+            color: #62BD62;
         }
         .yellow {
-            color: rgb(193, 193, 108);
+            color: #C1C16C;
         }
         .red {
-            color: rgb(210, 98, 98);
-        }
-        #map{
-            top: 15%;
-            left: 900px;
-            width: 270px;
-            position: absolute;
-            height: 450px;
-            border: 3pt solid rgba(75, 192, 192, 1);
+            color: #D26262;
         }
     </style>
 </head>
 <body>
-    <h1>~Chicago Beach E Coli Predictions~</h1>
+    <h1>~Chicago Beach E Coli Levels~</h1>
+    <h3>updated daily</h3>
+    
     <div class="wrapper">
-        <div class="inner-wrap">
-            <div id="map"></div>
-            <div id="chart-container">
-                <canvas id="myChart"></canvas>   
-            </div>
+        <div id="map"></div>
+        <div id="chart-container">
+            <canvas id="myChart"></canvas>   
+        </div>
         </div>
     </div>
-        {% if data %}
-            <div id="data-container">
-                {% for record in data %}
-                    <div class="beach-data">
-                        Beach: {{ record.beach_name }} |
-                        Actual e.coli level: <span class="scraped-level">{{ record.scraped_number }}</span>                    </div>
-                {% endfor %}
-            </div>
-        {% else %}
-            <p>No data found.</p>
-        {% endif %}
-    </div>
+    {% if data %}
+        <div id="data-container">
+            {% for record in data %}
+                <div class="beach-data">
+                    <p>Beach: {{ record.beach_name }}</p>
+                    <p>Actual e.coli level: <span class="scraped-level">{{ record.scraped_number }}</span></p>
+                    <p>predicted e.coli level: <span class="predicted-level">{{ record.predicted_level}}</span></p>
+                </div>
+            {% endfor %}
+        </div>
+            {% else %}
+                <p>No data found.</p>
+            {% endif %}
+        </div>
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         var dataFromFlask = JSON.parse('{{ data | tojson | safe }}');

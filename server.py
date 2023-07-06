@@ -51,7 +51,7 @@ def get_data():
                     'Oakwood':"https://www.chicagoparkdistrict.com/parks-facilities/oakwood-beach", 
                     'Margaret T Burroughs (31st)':"https://www.chicagoparkdistrict.com/parks-facilities/margaret-t-burroughs-beach", '12th Street':"https://www.chicagoparkdistrict.com/parks-facilities/12th-street-beach", 
                     'Ohio Street':"https://www.chicagoparkdistrict.com/parks-facilities/ohio-street-beach", 'Oak Street':"https://www.chicagoparkdistrict.com/parks-facilities/oak-street-beach", 'North Avenue':"https://www.chicagoparkdistrict.com/parks-facilities/north-avenue-beach", 'Foster':"https://www.chicagoparkdistrict.com/parks-facilities/foster-beach", 'Osterman':"https://www.chicagoparkdistrict.com/parks-facilities/osterman-beach", 
-                    'Hartigan (Albion)':"https://www.chicagoparkdistrict.com/parks-facilities/hartigan-beach", 'Leone':"https://www.chicagoparkdistrict.com/parks-facilities/leone-beach", 'Marion Mahony Griffin (Jarvis)':"https://www.chicagoparkdistrict.com/parks-facilities/marion-mahony-griffin-beach"}
+                    'Hartigan (Albion)':"https://www.chicagoparkdistrict.com/parks-facilities/hartigan-beach", 'Leone':"https://www.chicagoparkdistrict.com/parks-facilities/leone-beach"}
 
     processed_beaches = {}  # dictionary to keep track of processed beaches
 
@@ -85,7 +85,7 @@ def get_data():
 def order_data(data):
     beach_order = ['57th Street', 'Oakwood', 'Margaret T Burroughs (31st)', '12th Street', 
                    'Ohio Street', 'Oak Street', 'North Avenue', 'Foster', 'Osterman', 
-                   'Hartigan (Albion)', 'Leone', 'Marion Mahony Griffin (Jarvis)', 'Howard', 
+                   'Hartigan (Albion)', 'Leone', 'Howard', 
                    'Rogers', 'Juneway']
 
     beach_positions = {beach: position for position, beach in enumerate(beach_order)}
