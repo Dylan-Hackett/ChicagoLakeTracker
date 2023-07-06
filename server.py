@@ -46,6 +46,7 @@ def get_data():
         return {}
 
     data = json.loads(response.text)
+    print(f"Data from endpoint: {data}")
 
     beach_urls =  { '57th Street':"https://www.chicagoparkdistrict.com/parks-facilities/57th-street-beach", 
                     'Oakwood':"https://www.chicagoparkdistrict.com/parks-facilities/oakwood-beach", 
@@ -58,23 +59,21 @@ def get_data():
         if beach_name in beach_urls:
             record['scraped_number'] = scrape_beach_data(beach_urls[beach_name])
             
-            # Check if a record for this beach already exists
             beach_record = BeachData.query.filter_by(beach_name=beach_name).first()
+            print(f"Existing record for {beach_name}: {beach_record}")
 
         if beach_record:
-            # Update existing record
             beach_record.set_data(record)
+            print(f"Updated record: {beach_record.get_data()}")
         else:
-            # Create new record
             beach_record = BeachData(beach_name=beach_name)
             beach_record.set_data(record)
             db.session.add(beach_record)
-        
+            print(f"New record: {beach_record.get_data()}")
+
     db.session.commit()
 
-
     return {record.get('beach_name', ''): record for record in data}
-
 
 def order_data(data):
     beach_order = ['57th Street', 'Oakwood', 'Margaret T Burroughs (31st)', '12th Street', 
