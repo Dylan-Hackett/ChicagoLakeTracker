@@ -18,7 +18,7 @@ class BeachData(db.Model):
         self.data = json.dumps(data)  # Convert data to JSON string
 
     def get_data(self):
-        return json.loads(self.data)  # Convert JSON string to Python object
+        return json.loads(self.data)
 
 
 
@@ -99,7 +99,7 @@ def order_data(data):
 def index():
     # Pull all the data from the database
     beach_records = BeachData.query.all()
-    data = {beach.beach_name: beach.data for beach in beach_records}
+    data = {beach.beach_name: beach.get_data() for beach in beach_records}
     ordered_data = order_data(data)
     return render_template('index.html', data=ordered_data)
 
