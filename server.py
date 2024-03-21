@@ -2,12 +2,18 @@ from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 import requests
 import json
+import os
 from bs4 import BeautifulSoup
+from dotenv import load_dotenv
+
+load_dotenv()
+
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://xjqwxqivxhtrde:016c28bf31785c503e6e217bcf16f399cf7290128db7950ce366574462ddda26@ec2-3-232-218-211.compute-1.amazonaws.com:5432/dcfbgfq1ac0qdm'
+
+DATABASE_URI = os.getenv('DATABASE_URI', 'sqlite:///default.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
-
 class BeachData(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     beach_name = db.Column(db.String(100))
