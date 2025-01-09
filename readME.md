@@ -1,4 +1,4 @@
-## Project Title: Chicago Beach E.Coli Predictions
+Chicago Beach E.Coli Predictions
 
 This is a Flask-based web application that fetches beach water data from the city of Chicago's official resources, scrapes data from specific beach URLs, and presents this data in an organized and visually appealing manner. The main goal of this application is to predict E.Coli levels at different beaches, based on the fetched and scraped data.
 
